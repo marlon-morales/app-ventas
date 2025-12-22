@@ -30,4 +30,15 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/registro-inicial', function () { return view('registro_maestro'); });
+
 Route::post('/empresa/store', 'EmpresaController@store')->name('empresa.store');
+
+// Ruta para MOSTRAR el formulario (Método GET)
+Route::get('/productos/nuevo', 'ProductoController@create')->name('productos.create');
+
+// Ruta para PROCESAR el envío del formulario e imagen (Método POST)
+Route::post('/productos/guardar', 'ProductoController@store')->name('productos.store');
+
+Route::get('/ventas/pos', 'VentaController@index')->name('ventas.pos');
+
+Route::post('/ventas/guardar', 'VentaController@store')->name('ventas.store');
