@@ -56,7 +56,11 @@
                                         🛍️ Crear Nueva Venta
                                     </a>
                                 </li>
-                                <li class="list-group-item"><a href="#">Pedidos en Cocina</a></li>
+                                <li class="list-group-item">
+                                    <a href="{{ route('cocina.index') }}" class="btn btn-link text-secondary">
+                                            👨‍🍳 Pedidos en Cocina
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

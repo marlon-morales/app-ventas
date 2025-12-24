@@ -12,34 +12,30 @@ class VentaController extends Controller
 
     public function store(Request $request)
     {
-        // DB::beginTransaction hace que si falla el guardado de un producto,
-        // se cancele todo el pedido para no dejar datos "huérfanos".
-        DB::beginTransaction();
+        \DB::beginTransaction();
         try {
-            // 1. Guardamos los datos generales del pedido
-            $pedido = new Pedido();
+            $pedido = new \App\Pedido();
             $pedido->cliente_nombre = $request->cliente;
             $pedido->total = $request->total;
-            $pedido->estado = 'cocina'; // Estado inicial
-            $pedido->user_id = auth()->id(); // ID del vendedor logueado
+            $pedido->estado = 'cocina';
+            $pedido->user_id = auth()->id();
             $pedido->empresa_id = auth()->user()->empresa_id;
             $pedido->save();
 
-            // 2. Guardamos cada producto que venía en el carrito
             foreach ($request->items as $item) {
-                $detalle = new DetallePedido();
-                $detalle->pedido_id = $pedido->id_pedido; // Conectamos con el pedido de arriba
+                $detalle = new \App\DetallePedido();
+                $detalle->pedido_id = $pedido->id_pedido;
                 $detalle->producto_id = $item['id'];
                 $detalle->cantidad = $item['qty'];
                 $detalle->precio_unitario = $item['precio'];
                 $detalle->save();
             }
 
-            DB::commit(); // Si todo salió bien, confirmamos los cambios en la BD
+            \DB::commit();
             return response()->json(['success' => true, 'pedido_id' => $pedido->id_pedido]);
 
         } catch (\Exception $e) {
-            DB::rollback(); // Si algo falló, deshacemos todo lo que se alcanzó a escribir
+            \DB::rollback();
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }

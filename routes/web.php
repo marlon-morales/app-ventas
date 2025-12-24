@@ -39,6 +39,29 @@ Route::get('/productos/nuevo', 'ProductoController@create')->name('productos.cre
 // Ruta para PROCESAR el envío del formulario e imagen (Método POST)
 Route::post('/productos/guardar', 'ProductoController@store')->name('productos.store');
 
+Route::get('/productos/gestion', 'ProductoController@index')->name('productos.index');
+
+Route::get('/productos/{id}/edit', 'ProductoController@edit')->name('productos.edit');
+
+Route::put('/productos/{id}', 'ProductoController@update')->name('productos.update');
+
+//VENTAS
 Route::get('/ventas/pos', 'VentaController@index')->name('ventas.pos');
 
 Route::post('/ventas/guardar', 'VentaController@store')->name('ventas.store');
+
+Route::get('/cocina', 'CocinaController@index')->name('cocina.index');
+Route::post('/cocina/listo/{id}', 'CocinaController@marcarListo')->name('cocina.listo');
+
+// Rutas de Pagos
+Route::get('/pagos', 'PagoController@index')->name('pagos.index');
+Route::post('/pagos/finalizar/{id}', 'PagoController@finalizar')->name('pagos.finalizar');
+
+// Vista principal de gestión de pedidos
+Route::get('/pedidos/gestion', 'PedidoController@indexGestion')->name('pedidos.gestion');
+
+// Ruta para cancelar (cambiar estado a 'cancelado')
+Route::post('/pedidos/{id}/cancelar', 'PedidoController@cancelar')->name('pedidos.cancelar');
+
+// Ruta para ir a la edición (similar al POS)
+Route::get('/pedidos/{id}/editar', 'PedidoController@editar')->name('pedidos.editar');

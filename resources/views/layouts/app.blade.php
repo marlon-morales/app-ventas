@@ -12,64 +12,80 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .navbar { background-color: #1a1a1a !important; padding: 0.8rem 2rem; }
+        .nav-link { font-weight: 500; color: rgba(255,255,255,0.8) !important; transition: 0.3s; margin: 0 5px; }
+        .nav-link:hover { color: #ff9f43 !important; transform: translateY(-2px); }
+        .dropdown-menu { border: none; shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px; }
+        .dropdown-item { border-radius: 8px; padding: 8px 20px; font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-item:hover { background-color: #ff9f43; color: white; }
+        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: #ff9f43 !important; }
+        .active-link { border-bottom: 2px solid #ff9f43; color: white !important; }
+    </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    🏢 {{ Auth::check() ? (Auth::user()->name_empresa ?? 'Mi Negocio') : config('app.name') }}
+                </a>
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
+                <div class="collapse navbar-collapse" id="mainMenu">
+                    @auth
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="prodDrop" data-toggle="dropdown">📦 Productos</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('productos.create') }}">➕ Crear Producto</a>
+                                <a class="dropdown-item" href="{{ route('productos.index') }}">✏️ Gestionar / Modificar</a>
+                            </div>
+                        </li>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pedDrop" data-toggle="dropdown">📝 Pedidos</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('ventas.pos') }}">🛒 Crear Pedido (POS)</a>
+                                <a class="dropdown-item" href="#">🚫 Modificar o Cancelar</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cocina.index') }}">👨‍🍳 Cocina</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('pagos.index') }}">💰 Pagos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">📊 Informes</a></li>
                     </ul>
+                    @endauth
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
+                    <ul class="navbar-nav ml-auto">
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">Entrar</a>
+                            </li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">
+                                    👤 {{ Auth::user()->name }}
                                 </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Cerrar Sesión
+                                    </a>
+                                </div>
                             </li>
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
 
         @yield('content')
     </div>
