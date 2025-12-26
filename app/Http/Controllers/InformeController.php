@@ -99,5 +99,42 @@ class InformeController extends Controller
         return view('informes.ranking_productos', compact('masVendidos', 'menosVendidos', 'fecha'));
     }
 
-    
+    public function comparativoMensual()
+    {
+        // 1. KPIs: Mes Actual vs Anterior
+        $mesActual = DB::table('pedidos')->whereRaw('LOWER(estado) = ?', ['pagado'])->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('total');
+        $mesAnterior = DB::table('pedidos')->whereRaw('LOWER(estado) = ?', ['pagado'])->whereMonth('created_at', now()->subMonth()->month)->whereYear('created_at', now()->subMonth()->year)->sum('total');
+
+        // 2. Día de la semana más fuerte
+        $diaFuerte = DB::table('pedidos')
+            ->select(DB::raw("TO_CHAR(created_at, 'Day') as dia"), DB::raw('SUM(total) as total'))
+            ->whereRaw('LOWER(estado) = ?', ['pagado'])
+            ->groupBy('dia')->orderBy('total', 'desc')->first();
+
+        // 3. Tendencia 30 días
+        $tendencia30 = DB::table('pedidos')
+            ->select(DB::raw('DATE(created_at) as fecha'), DB::raw('SUM(total) as total'))
+            ->whereRaw('LOWER(estado) = ?', ['pagado'])
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupBy('fecha')->orderBy('fecha', 'asc')->get();
+
+        // 4. Proyección al cierre del mes
+        $diasTranscurridos = now()->day;
+        $diasMes = now()->daysInMonth;
+        $promedioDiario = $mesActual / ($diasTranscurridos ?: 1);
+        $proyeccion = $promedioDiario * $diasMes;
+
+        // 5. Ventas por Empleado (Mes Actual)
+        $empleadosMes = DB::table('pedidos')
+            ->join('users', 'pedidos.user_id', '=', 'users.id')
+            ->select('users.name', DB::raw('SUM(pedidos.total) as total'))
+            ->whereRaw('LOWER(pedidos.estado) = ?', ['pagado'])
+            ->whereMonth('pedidos.created_at', now()->month)
+            ->groupBy('users.name')->get();
+
+        return view('informes.comparativo', compact(
+            'mesActual', 'mesAnterior', 'diaFuerte',
+            'tendencia30', 'proyeccion', 'empleadosMes'
+        ));
+    }
 }

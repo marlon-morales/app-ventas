@@ -81,3 +81,5 @@ Route::get('/pedidos/pagos', 'PedidoController@vistaPagos')->name('pedidos.pagos
 Route::get('/informes/ventas-diarias', 'InformeController@ventasDiarias')->name('informes.ventas_diarias');
 
 Route::get('/informes/ranking-productos', 'InformeController@rankingProductos')->name('informes.ranking_productos');
+
+Route::get('/informes/comparativo', 'InformeController@comparativoMensual')->name('informes.comparativo');

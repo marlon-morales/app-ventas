@@ -74,8 +74,10 @@
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item py-2" href="#">
-                                    <i class="fas fa-balance-scale mr-2 text-info"></i> Comparativo Semanal
+
+                                <a class="dropdown-item py-2" href="{{ route('informes.comparativo') }}">
+                                    <i class="fas fa-chart-line mr-2"></i>
+                                    <span>Análisis Mensual</span>
                                 </a>
                             </div>
                         </li>
