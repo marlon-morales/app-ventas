@@ -34,9 +34,22 @@
                                 @if($user->p_pagos) <span class="badge badge-pill badge-light border">Pag</span> @endif
                                 @if($user->p_informes) <span class="badge badge-pill badge-light border">Inf</span> @endif
                             </td>
+
                             <td class="text-center">
-                                <a href="#" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-edit"></i></a>
-                                <button class="btn btn-sm btn-outline-danger mx-1"><i class="fas fa-trash"></i></button>
+                                <a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <form action="{{ route('usuarios.desactivar', $user->id) }}" method="POST" style="display:inline;"
+                                      onsubmit="return confirm('¿Estás seguro de cambiar el estado de este usuario?')">
+
+                                    <?php echo csrf_field(); ?>
+
+                                    <button type="submit" class="btn btn-sm {{ $user->activo ? 'btn-outline-danger' : 'btn-outline-success' }} shadow-sm">
+                                        <i class="fas {{ $user->activo ? 'fa-user-slash' : 'fa-user-check' }}"></i>
+                                        {{ $user->activo ? 'Desactivar' : 'Activar' }}
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

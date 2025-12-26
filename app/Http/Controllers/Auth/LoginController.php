@@ -20,6 +20,31 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    protected function credentials(\Illuminate\Http\Request $request)
+    {
+        // Obtenemos email y password del formulario
+        $credentials = $request->only($this->username(), 'password');
+
+        // Le agregamos la condición: 'activo' debe ser true (1)
+        $credentials['activo'] = true;
+
+        return $credentials;
+    }
+
+    protected function sendFailedLoginResponse(\Illuminate\Http\Request $request)
+    {
+        $user = \App\User::where($this->username(), $request->{$this->username()})->first();
+
+        if ($user && !$user->activo) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                $this->username() => ['Tu cuenta ha sido desactivada. Contacta al administrador.'],
+            ]);
+        }
+
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
     /**
      * Where to redirect users after login.
      *
@@ -35,5 +60,11 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function loggedOut(\Illuminate\Http\Request $request)
+    {
+        // Redirige directamente a la ruta del login
+        return redirect()->route('login');
     }
 }

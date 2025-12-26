@@ -92,3 +92,12 @@ Route::post('/usuarios/guardar', 'UsuarioController@store')->name('usuarios.stor
 
 // ESTA ES LA QUE FALTA:
 Route::get('/usuarios', 'UsuarioController@index')->name('usuarios.index');
+
+// Rutas para Editar
+Route::get('/usuarios/{id}/editar', 'UsuarioController@edit')->name('usuarios.edit');
+
+// Usamos POST puro para máxima compatibilidad
+Route::post('/usuarios/actualizar/{id}', 'UsuarioController@update')->name('usuarios.update');
+
+// Usaremos POST para cambiar el estado
+Route::post('/usuarios/desactivar/{id}', 'UsuarioController@desactivar')->name('usuarios.desactivar');

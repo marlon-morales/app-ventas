@@ -50,4 +50,55 @@ class UsuarioController extends Controller
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
     }
+
+    public function edit($id)
+    {
+        // Buscamos el usuario por su ID
+        $usuario = \App\User::findOrFail($id);
+        return view('usuarios.edit', compact('usuario'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $usuario = \App\User::findOrFail($id);
+
+        // Validación (email único excepto para este usuario)
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'rol' => 'required'
+        ]);
+
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->rol = $request->rol;
+
+        // Solo actualizamos la contraseña si el usuario escribió algo
+        if ($request->filled('password')) {
+            $usuario->password = \Hash::make($request->password);
+        }
+
+        // Actualizamos Permisos (1 si está marcado, 0 si no)
+        $usuario->p_productos = $request->has('p_productos') ? 1 : 0;
+        $usuario->p_pedidos   = $request->has('p_pedidos')   ? 1 : 0;
+        $usuario->p_cocina    = $request->has('p_cocina')    ? 1 : 0;
+        $usuario->p_pagos     = $request->has('p_pagos')     ? 1 : 0;
+        $usuario->p_informes  = $request->has('p_informes')  ? 1 : 0;
+        $usuario->p_usuarios  = $request->has('p_usuarios')  ? 1 : 0;
+
+        $usuario->save();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+    }
+
+    public function desactivar($id)
+    {
+        // Buscamos al usuario sin importar si es admin o empleado
+        $usuario = \App\User::findOrFail($id);
+
+        $usuario->activo = $usuario->activo ? 0 : 1;
+        $usuario->save();
+
+        return redirect()->route('usuarios.index')->with('success', 'Estado de usuario actualizado.');
+    }
 }
