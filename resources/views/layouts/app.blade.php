@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         .navbar { background-color: #1a1a1a !important; padding: 0.8rem 2rem; }
         .nav-link { font-weight: 500; color: rgba(255,255,255,0.8) !important; transition: 0.3s; margin: 0 5px; }
@@ -50,13 +52,33 @@
                             <a class="nav-link dropdown-toggle" href="#" id="pedDrop" data-toggle="dropdown">📝 Pedidos</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('ventas.pos') }}">🛒 Crear Pedido (POS)</a>
-                                <a class="dropdown-item" href="#">🚫 Modificar o Cancelar</a>
+                                <a class="dropdown-item" href="{{ route('pedidos.gestion') }}">🚫 Modificar o Cancelar</a>
                             </div>
                         </li>
 
                         <li class="nav-item"><a class="nav-link" href="{{ route('cocina.index') }}">👨‍🍳 Cocina</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('pagos.index') }}">💰 Pagos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">📊 Informes</a></li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdownInformes" class="nav-link dropdown-toggle font-weight-bold text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <i class="fas fa-chart-line mr-1 text-primary"></i> Informes
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right shadow border-0" aria-labelledby="navbarDropdownInformes" style="border-radius: 12px;">
+                                <a class="dropdown-item py-2" href="{{ route('informes.ventas_diarias') }}">
+                                    <i class="fas fa-calendar-day mr-2 text-success"></i> Liquidación Diaria
+                                </a>
+
+                                <a class="dropdown-item py-2" href="#">
+                                    <i class="fas fa-hamburger mr-2 text-warning"></i> Ranking Best Sellers
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item py-2" href="#">
+                                    <i class="fas fa-balance-scale mr-2 text-info"></i> Comparativo Semanal
+                                </a>
+                            </div>
+                        </li>
                     </ul>
                     @endauth
 
@@ -92,5 +114,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

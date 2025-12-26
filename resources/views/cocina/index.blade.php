@@ -41,12 +41,12 @@
                         <span class="elapsed-timer font-weight-bold" style="font-size: 1.3rem;">00:00:00</span>
                     </div>
 
-                    <form action="{{ route('cocina.listo', $pedido->id_pedido) }}" method="POST">
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-success btn-block font-weight-bold py-2 shadow">
-                            ✅ DESPACHAR PEDIDO
-                        </button>
-                    </form>
+                    <div class="card-footer">
+                        <form action="{{ route('pedidos.despachar', $pedido->id_pedido) }}" method="POST">
+                            @csrf
+                            <input type="submit" value="✅ DESPACHAR Y ENVIAR A CAJA" class="btn btn-success btn-block btn-lg rounded-pill font-weight-bold shadow-sm">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
