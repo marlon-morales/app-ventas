@@ -68,7 +68,7 @@
                                     <i class="fas fa-calendar-day mr-2 text-success"></i> Liquidación Diaria
                                 </a>
 
-                                <a class="dropdown-item py-2" href="#">
+                                <a class="dropdown-item py-2" href="{{ route('informes.ranking_productos') }}">
                                     <i class="fas fa-hamburger mr-2 text-warning"></i> Ranking Best Sellers
                                 </a>
 
