@@ -83,3 +83,12 @@ Route::get('/informes/ventas-diarias', 'InformeController@ventasDiarias')->name(
 Route::get('/informes/ranking-productos', 'InformeController@rankingProductos')->name('informes.ranking_productos');
 
 Route::get('/informes/comparativo', 'InformeController@comparativoMensual')->name('informes.comparativo');
+
+// Ruta para ver el formulario
+Route::get('/usuarios/crear', 'UsuarioController@create')->name('usuarios.create');
+
+// Ruta para procesar el envío de datos
+Route::post('/usuarios/guardar', 'UsuarioController@store')->name('usuarios.store');
+
+// ESTA ES LA QUE FALTA:
+Route::get('/usuarios', 'UsuarioController@index')->name('usuarios.index');

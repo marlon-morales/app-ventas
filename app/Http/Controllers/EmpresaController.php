@@ -34,7 +34,8 @@ class EmpresaController extends Controller
                 'name'       => $request->admin_name,
                 'email'      => $request->admin_email,
                 'password'   => Hash::make($request->admin_password),
-                'empresa_id' => $empresa->id_empresa, // Relación foránea
+                'empresa_id' => $empresa->id_empresa,
+                'id_empresa' => $empresa->id_empresa,
                 'rol'        => 'admin',
             ]);
 

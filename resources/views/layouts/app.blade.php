@@ -40,6 +40,14 @@
                 <div class="collapse navbar-collapse" id="mainMenu">
                     @auth
                     <ul class="navbar-nav mx-auto">
+
+                        @php
+                                // Creamos una variable para saber si es el administrador principal
+                                // Puedes ajustarlo si tu administrador tiene otro ID o un campo 'role' == 'admin'
+                            $isAdmin = (auth()->user()->rol == 'admin');
+                        @endphp
+
+                        @if($isAdmin || auth()->user()->p_productos)
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="prodDrop" data-toggle="dropdown">📦 Productos</a>
                             <div class="dropdown-menu">
@@ -47,7 +55,9 @@
                                 <a class="dropdown-item" href="{{ route('productos.index') }}">✏️ Gestionar / Modificar</a>
                             </div>
                         </li>
+                        @endif
 
+                        @if($isAdmin || auth()->user()->p_pedidos)
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="pedDrop" data-toggle="dropdown">📝 Pedidos</a>
                             <div class="dropdown-menu">
@@ -55,9 +65,17 @@
                                 <a class="dropdown-item" href="{{ route('pedidos.gestion') }}">🚫 Modificar o Cancelar</a>
                             </div>
                         </li>
+                        @endif
 
+                        @if($isAdmin || auth()->user()->p_cocina)
                         <li class="nav-item"><a class="nav-link" href="{{ route('cocina.index') }}">👨‍🍳 Cocina</a></li>
+                        @endif
+
+                        @if($isAdmin || auth()->user()->p_pagos)
                         <li class="nav-item"><a class="nav-link" href="{{ route('pagos.index') }}">💰 Pagos</a></li>
+                        @endif
+
+                        @if($isAdmin || auth()->user()->p_informes)
                         <li class="nav-item dropdown">
                             <a id="navbarDropdownInformes" class="nav-link dropdown-toggle font-weight-bold text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fas fa-chart-line mr-1 text-primary"></i> Informes
@@ -81,6 +99,19 @@
                                 </a>
                             </div>
                         </li>
+                        @endif
+
+                        @if($isAdmin || auth()->user()->p_usuarios)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                                    Usuarios
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ route('usuarios.create') }}">Crear Usuario</a>
+                                    <a class="dropdown-item" href="{{ route('usuarios.index') }}">Editar Usuarios</a>
+                                </div>
+                            </li>
+                            @endif
                     </ul>
                     @endauth
 
