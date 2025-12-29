@@ -11,8 +11,8 @@
                         
                         <h5>Datos de la Empresa</h5>
                         <div class="form-group">
-                            <label>Nombre de la Arepería</label>
-                            <input type="text" name="nombre_empresa" class="form-control" placeholder="Ej: Arepas El Primo Buga">
+                            <label>Nombre de la Empresa</label>
+                            <input type="text" name="nombre_empresa" class="form-control" placeholder="Ej: ">
                         </div>
 
                         <hr>

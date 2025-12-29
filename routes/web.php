@@ -31,7 +31,21 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/registro-inicial', function () { return view('registro_maestro'); });
 
-Route::post('/empresa/store', 'EmpresaController@store')->name('empresa.store');
+// Route::post('/empresas/guardar', 'EmpresaController@store')->name('empresas.store');
+//
+// Route::get('/global/empresas/{id}/editar', 'EmpresaController@edit')->name('empresas.edit');
+// Route::post('/global/empresas/actualizar/{id}', 'EmpresaController@update')->name('empresas.update');
+
+
+// Rutas Globales de Empresas
+Route::get('/global/empresas', 'EmpresaController@index')->name('empresas.index');
+Route::get('/global/empresas/crear', 'EmpresaController@create')->name('empresas.create');
+Route::post('/global/empresas/guardar', 'EmpresaController@store')->name('empresas.store');
+
+// Rutas de Edición
+Route::get('/global/empresas/{id}/editar', 'EmpresaController@edit')->name('empresas.edit');
+Route::post('/global/empresas/actualizar/{id}', 'EmpresaController@update')->name('empresas.update');
+
 
 // Ruta para MOSTRAR el formulario (Método GET)
 Route::get('/productos/nuevo', 'ProductoController@create')->name('productos.create');

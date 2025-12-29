@@ -14,9 +14,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password','empresa_id', 'rol', 'p_productos', 'p_pedidos', 'p_cocina',
-        'p_pagos', 'p_informes', 'p_usuarios', 'activo'
+    protected $guarded = [
+        'name', 'email', 'password', 'rol', 'id_empresa', 'empresa_id', 'activo',
+        'p_productos', 'p_pedidos', 'p_cocina', 'p_pagos', 'p_informes', 'p_usuarios'
     ];
 
     /**
@@ -27,4 +27,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function esSuperAdmin()
+    {
+        return $this->rol === 'superadmin';
+    }
 }

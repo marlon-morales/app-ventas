@@ -104,14 +104,36 @@
                         @if($isAdmin || auth()->user()->p_usuarios)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-                                    Usuarios
+                                    <i class="fas fa-users-cog text-primary"></i>Usuarios
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('usuarios.create') }}">Crear Usuario</a>
-                                    <a class="dropdown-item" href="{{ route('usuarios.index') }}">Editar Usuarios</a>
+                                    <a class="fas fa-user-plus" href="{{ route('usuarios.create') }}">Crear Usuario</a>
+                                    <a class="fas fa-user-edit" href="{{ route('usuarios.index') }}">Editar Usuarios</a>
                                 </div>
                             </li>
-                            @endif
+                        @endif
+
+                        @if(Auth::user()->rol == 'superadmin')
+                            <li class="nav-item">
+                               <a class="nav-link" href="{{ route('empresas.create') }}">
+                                   <i class="fas fa-plus-circle text-success mr-2"></i> Crear Nueva Empresa
+                               </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('empresas.index') }}">
+                                    <i class="fas fa-list"></i> Ver Todas las Empresas
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(Auth::user()->rol == 'admin' || Auth::user()->rol == 'superadmin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('empresas.edit', Auth::user()->id_empresa) }}">
+                                    <i class="fas fa-edit"></i> Configurar Mi Empresa
+                                </a>
+                            </li>
+                        @endif
+
                     </ul>
                     @endauth
 
