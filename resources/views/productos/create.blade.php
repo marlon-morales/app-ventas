@@ -73,14 +73,37 @@
 </div>
 
 <script>
-    document.getElementById('imagen_input').addEventListener('change', function(e) {
-        var reader = new FileReader();
-        reader.onload = function(event) {
-            document.getElementById('preview').setAttribute('src', event.target.result);
-        }
-        if(this.files[0]) {
-            reader.readAsDataURL(this.files[0]);
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('imagen_input');
+        const preview = document.getElementById('preview');
+
+        input.addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                // Validar que sea una imagen
+                if (!file.type.startsWith('image/')) {
+                    alert('Por favor selecciona un archivo de imagen válido.');
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                // Añadimos un efecto de opacidad mientras carga
+                preview.style.opacity = '0.5';
+
+                reader.onload = function(e) {
+                    preview.setAttribute('src', e.target.result);
+                    preview.style.opacity = '1'; // Restaurar opacidad
+                }
+
+                reader.onerror = function() {
+                    console.error("Error al leer el archivo");
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
     });
 </script>
 @endsection

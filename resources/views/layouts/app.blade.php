@@ -29,8 +29,14 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    🏢 {{ Auth::check() ? (Auth::user()->name_empresa ?? 'Mi Negocio') : config('app.name') }}
+                <a class="navbar-brand font-weight-bold text-primary" href="{{ url('/home') }}">
+                    <i class="fas fa-store mr-2"></i>
+
+                    @if(Auth::user()->empresa)
+                        {{ Auth::user()->empresa->nombre_empresa }}
+                    @else
+                        Panel de Control
+                    @endif
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">

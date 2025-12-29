@@ -73,10 +73,12 @@ class ProductoController extends Controller
         // 2. Buscamos el producto en la base de datos por su ID
         $producto = \App\Producto::findOrFail($id);
 
+
         // 3. Actualizamos los campos con lo que viene del formulario
         $producto->nombre = $request->nombre;
         $producto->precio = $request->precio;
         $producto->categoria = $request->categoria;
+        $producto->descripcion = $request->descripcion;
 
         // 4. Si el usuario subió una imagen nueva, la procesamos
         if ($request->hasFile('imagen')) {

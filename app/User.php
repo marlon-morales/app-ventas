@@ -32,4 +32,10 @@ class User extends Authenticatable
     {
         return $this->rol === 'superadmin';
     }
+
+    public function empresa()
+    {
+
+        return $this->belongsTo(\App\Empresa::class, 'id_empresa', 'id_empresa');
+    }
 }
