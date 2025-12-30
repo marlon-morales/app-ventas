@@ -29,13 +29,14 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow">
             <div class="container-fluid">
-                <a class="navbar-brand font-weight-bold text-primary" href="{{ url('/home') }}">
-                    <i class="fas fa-store mr-2"></i>
+                <a class="navbar-brand font-weight-bold" href="{{ url('/home') }}">
+                    <i class="fas fa-store mr-2 text-warning"></i>
 
-                    @if(Auth::user()->empresa)
+                    {{-- Solo intentamos mostrar el nombre si el usuario está logueado --}}
+                    @if(Auth::check() && Auth::user()->empresa)
                         {{ Auth::user()->empresa->nombre_empresa }}
                     @else
-                        Panel de Control
+                        Software de Gestión
                     @endif
                 </a>
 
