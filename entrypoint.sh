@@ -1,9 +1,11 @@
 #!/bin/bash
-# Esperar unos segundos a que la red esté lista
-sleep 5
+# Limpiar cualquier caché de configuración vieja
+php artisan config:clear
+php artisan cache:clear
 
-# Intentar migrar. Si falla, el contenedor se reiniciará y volverá a intentar.
-php artisan migrate:fresh --seed --force
+echo "Intentando migración..."
+# Ejecutar migración
+php artisan migrate --force --seed
 
-# Iniciar Apache
+# Iniciar servidor
 apache2-foreground
