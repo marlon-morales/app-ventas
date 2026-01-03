@@ -1,7 +1,9 @@
 #!/bin/bash
+# Esperar unos segundos a que la red esté lista
+sleep 5
 
-# Ejecutar migraciones automáticamente
-php artisan migrate --force
+# Intentar migrar. Si falla, el contenedor se reiniciará y volverá a intentar.
+php artisan migrate:fresh --seed --force
 
-# Iniciar el servidor Apache (el comando original del Dockerfile)
+# Iniciar Apache
 apache2-foreground
