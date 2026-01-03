@@ -57,10 +57,10 @@ return [
         'pgsql' => [
     'driver' => 'pgsql',    
     'url' => env('DATABASE_URL'), 
-    'host' => env('DB_HOST', 'db.ovkkogzjpiuxreuopmur.supabase.co'),
+    'host' => env('DB_HOST', 'aws-0-us-east-1.pooler.supabase.com'),
     'port' => env('DB_PORT', '5432'),
     'database' => env('DB_DATABASE', 'postgres'),
-    'username' => env('DB_USERNAME', 'postgres'),
+    'username' => env('DB_USERNAME', 'postgres.ovkkogzjpiuxreuopmur'),
     'password' => env('DB_PASSWORD', 'Cacahuate007'),
     'charset' => 'utf8',
     'prefix' => '',
