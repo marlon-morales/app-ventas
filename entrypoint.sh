@@ -1,10 +1,15 @@
 #!/bin/bash
-# Limpiar caché para asegurar que lea la nueva DATABASE_URL
+
+# Esperar a que el sistema esté listo
+sleep 3
+
+# Forzar la limpieza de caché de configuración para que lea las variables de Render
 php artisan config:clear
+php artisan cache:clear
 
-echo "Verificando conexión a Supabase..."
-# Intentar migración
-php artisan migrate --force --seed || echo "La migración falló, pero iniciaremos el servidor para debug."
+echo "Iniciando migración forzada..."
+# Ejecutamos la migración
+php artisan migrate --force --seed
 
-# Iniciar servidor
-apache2-foreground
+# Iniciamos Apache
+exec apache2-foreground
