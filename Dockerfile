@@ -39,4 +39,4 @@ COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Usamos el script como el comando de inicio
-CMD ["entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
