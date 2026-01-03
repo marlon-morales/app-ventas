@@ -1,15 +1,13 @@
 #!/bin/bash
-
-# Esperar a que el sistema esté listo
-sleep 3
-
-# Forzar la limpieza de caché de configuración para que lea las variables de Render
+# Limpiar caché
 php artisan config:clear
-php artisan cache:clear
 
-echo "Iniciando migración forzada..."
-# Ejecutamos la migración
+echo "Probando conexión a la base de datos..."
+# Intentar migración
+php artisan migrate --force --seed || echo "La migración falló, reintentando conexión..."
+
+# Si la anterior falló, intentamos una vez más tras un pequeño descanso
+sleep 5
 php artisan migrate --force --seed
 
-# Iniciamos Apache
 exec apache2-foreground
