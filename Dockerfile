@@ -34,4 +34,9 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+# Copiamos el script de arranque y le damos permisos de ejecución
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Usamos el script como el comando de inicio
+CMD ["entrypoint.sh"]
